@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>模型预测界面</title>
+    <!--url_for() 函数来生成静态资源的 URL:static/css/style.css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>模型预测界面</h1>
+    <div class="input-group">
+        <label for="age">年龄：</label>
+        <input type="number" id="age" name="age" placeholder="年龄">
+    </div>
+
+    <div class="input-group">
+        <label for="call_time">通话时间：</label>
+        <input type="number" id="call_time" name="call_time" placeholder="通话时间">
+    </div>
+
+    <div class="input-group">
+        <label for="traffic">流量：</label>
+        <input type="number" id="traffic" name="traffic" placeholder="流量">
+    </div>
+
+    <div class="input-group">
+        <label for="fee">费用：</label>
+        <input type="number" id="fee" name="fee" placeholder="费用">
+    </div>
+
+    <button onclick="predict()">预测</button>
+       <table>
+        <thead>
+            <tr>
+                <th>User_ID</th>
+                <th>Age</th>
+                <th>Call Time</th>
+                <th>Traffic</th>
+                <th>Fee</th>
+                <th>Gender</th>
+                <th>Package</th>
+            </tr>
+        </thead>
+        <tbody id="data-body"></tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+
+    <div id="prediction" class="result"></div>
+    <button id="loadImageButton" onclick="generateBoxPlot()">生成箱线图</button>
+    <div id="boxplot" class="boxplot"></div>
+       <!-- Add a space between the buttons -->
+    <div style="margin-bottom: 10px;"></div>
+    <button id="loadImagesButton">Load Images</button>
+
+<!--轮播-->
+<div class="carousel-container">
+        <div class="carousel" id="boxplotCarousel">
+            <!-- Boxplot images will be dynamically added here -->
+        </div>
+    </div>
+</div>
+
+
+<!--   <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">-->
+
+<!--引用 JavaScript 文件 -->
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="static/js/anime.min.js"></script>
+
+</body>
+</html>

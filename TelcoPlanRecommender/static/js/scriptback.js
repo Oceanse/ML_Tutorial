@@ -1,20 +1,14 @@
-// 套餐推荐：
 function predict() {
     var age = document.getElementById('age').value;
-    var call_duration = document.getElementById('call_duration').value;
-    var call_count = document.getElementById('call_count').value;
-    var Online_Time = document.getElementById('Online_Time').value;
-    var average_traffic = document.getElementById('average_traffic').value;
-    var average_fee = document.getElementById('average_fee').value;
-
+    var call_time = document.getElementById('call_time').value;
+    var traffic = document.getElementById('traffic').value;
+    var fee = document.getElementById('fee').value;
 
     var data = {
         "age": age,
-        "call_duration": call_duration,
-        "call_count": call_count,
-        "Online_Time": Online_Time,
-        "average_traffic": average_traffic,
-        "average_fee": average_fee
+        "call_time": call_time,
+        "traffic": traffic,
+        "fee": fee
     };
 
     fetch('http://127.0.0.1:5000/api/predict', {
@@ -32,8 +26,7 @@ function predict() {
 }
 
 
-
-// 生成所有特征箱线图
+// 生成箱线图
 function generateBoxPlot() {
     fetch('/api/boxplot')
         .then(response => response.json())
@@ -52,36 +45,23 @@ function generateBoxPlot() {
         .catch(error => console.error('Error generating boxplot:', error));
 }
 
+//
+// function handleButtonClick() {
+//     const button = document.getElementById('loadImagesButton');
+//     button.addEventListener('click', () => {
+//         // Load boxplot images and set up the carousel when the button is clicked
+//         loadBoxplotImages();
+//     });
+// }
+//
+// // Call the function to handle the button click
+// handleButtonClick();
+
+
 // Attach an event listener to the button
 const button = document.getElementById('loadImageButton');
 // const button = document.querySelector('button');
 button.addEventListener('click', generateBoxPlot);
-
-
-
-// 生成所有特征箱线图
-function generateFeatureScore() {
-    fetch('/api/featureScore')
-        .then(response => response.json())
-        .then(data => {
-            // Clear any previous boxplot
-            const boxplotDiv = document.getElementById('featureScore');
-            boxplotDiv.innerHTML = '';
-
-            // Create an img element and set its source to the generated boxplot image
-            const img = document.createElement('img');
-            img.src = data.image_path;
-            boxplotDiv.appendChild(img);
-            // 调用动画函数
-            animateBoxPlot();
-        })
-        .catch(error => console.error('Error generating boxplot:', error));
-}
-
-// Attach an event listener to the button
-const scoreButton = document.getElementById('loadFeatureScoreButton');
-// const button = document.querySelector('button');
-scoreButton.addEventListener('click', generateFeatureScore);
 
 
 function animateBoxPlot() {
@@ -122,8 +102,7 @@ function animateBoxPlot() {
 
 // 每个特征对应的箱线图
 async function loadBoxplotImages() {
-   const features = ['age', 'call_duration', 'call_count', '0_traffic', '1_traffic',
-       '2_traffic', 'Online_Time', '0_fee', '1_fee', '2_fee'];
+    const features = ['age', 'call_time', 'traffic', 'fee'];
     const carousel = document.getElementById('boxplotCarousel');
 
 
@@ -149,7 +128,25 @@ async function loadBoxplotImages() {
 }
 
 
+// 每个特征对应的箱线图
+async function loadBoxplotImagesback() {
+    const features = ['age', 'call_time', 'traffic', 'fee'];
+    const carousel = document.getElementById('boxplotCarousel');
 
+    for (const feature of features) {
+        const response = await fetch(`/api/boxplot_image/${feature}`);
+        const blob = await response.blob();
+
+        const boxplotImage = document.createElement('img');
+        boxplotImage.src = URL.createObjectURL(blob);
+        boxplotImage.className = 'boxplot-image';
+        carousel.appendChild(boxplotImage);
+    }
+
+    // Calculate the total width of the carousel
+    const carouselWidth = features.length * 320;  // Assuming 10px margin and 300px width for each image
+    carousel.style.width = `${carouselWidth}px`;
+}
 
 // Function to handle the button click
 function handleButtonClick() {
@@ -206,8 +203,6 @@ function generatePaginationLinks(currentPage, totalPages) {
     }
 }
 
-
-// 获取展示测试集数据
 function fetchData(page) {
     const pageSize = 5;  // Adjust the page size as needed
 
@@ -220,12 +215,12 @@ function fetchData(page) {
             data.data.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
+                    <td>${item.User_ID}</td>
                     <td>${item.age}</td>
-                    <td>${item.call_duration}</td>
-                    <td>${item.call_count}</td>
-                    <td>${item.Online_Time}</td>
-                    <td>${item.average_traffic}</td>
-                    <td>${item.average_fee}</td>
+                    <td>${item.call_time}</td>
+                    <td>${item.traffic}</td>
+                    <td>${item.fee}</td>
+                    <td>${item.gender}</td>
                     <td>${item.package}</td>
                 `;
                 tbody.appendChild(row);

@@ -6,51 +6,66 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+<div class="main-container">
 <div class="container">
     <h1>模型预测界面</h1>
     <div class="input-group">
         <label for="age">年龄：</label>
-        <input type="number" id="age" name="age" placeholder="年龄">
+        <input type="number" id="age" name="age" placeholder="请输入年龄">
     </div>
 
     <div class="input-group">
-        <label for="call_time">通话时间：</label>
-        <input type="number" id="call_time" name="call_time" placeholder="通话时间">
+        <label for="call_duration">通话时长：</label>
+        <input type="number" id="call_duration" name="call_duration" placeholder="请输入通话时长">
     </div>
 
     <div class="input-group">
-        <label for="traffic">流量：</label>
-        <input type="number" id="traffic" name="traffic" placeholder="流量">
+        <label for="call_count">通话次数：</label>
+        <input type="number" id="call_count" name="call_count" placeholder="请输入通话次数">
     </div>
 
     <div class="input-group">
-        <label for="fee">费用：</label>
-        <input type="number" id="fee" name="fee" placeholder="费用">
+        <label for="Online_Time">在线时长：</label>
+        <input type="number" id="Online_Time" name="Online_Time" placeholder="请输入在线时长">
     </div>
 
-    <button onclick="predict()">预测</button>
-       <table>
+    <div class="input-group">
+        <label for="average_traffic">平均流量：</label>
+        <input type="number" id="average_traffic" name="average_traffic" placeholder="请输入平均流量">
+    </div>
+
+    <div class="input-group">
+        <label for="average_fee">平均费用：</label>
+        <input type="number" id="average_fee" name="average_fee" placeholder="请输入平均费用">
+    </div>
+</div >
+ <div class="container2">
+ <table>
         <thead>
             <tr>
-                <th>User_ID</th>
-                <th>Age</th>
-                <th>Call Time</th>
-                <th>Traffic</th>
-                <th>Fee</th>
-                <th>Gender</th>
+                <th>age</th>
+                <th>call_duration Time</th>
+                <th>call_count</th>
+                <th>Online_Time</th>
+                <th>average_traffic</th>
+                 <th>average_fee</th>
                 <th>Package</th>
             </tr>
         </thead>
         <tbody id="data-body"></tbody>
     </table>
     <div class="pagination" id="pagination"></div>
-
+</div>
+</div>
+    <button onclick="predict()">套餐推荐</button>
     <div id="prediction" class="result"></div>
-    <button id="loadImageButton" onclick="generateBoxPlot()">生成箱线图</button>
+
+    <button id="loadImageButton" onclick="generateBoxPlot()">多特征箱线图</button>
     <div id="boxplot" class="boxplot"></div>
+
        <!-- Add a space between the buttons -->
     <div style="margin-bottom: 10px;"></div>
-    <button id="loadImagesButton">Load Images</button>
+    <button id="loadImagesButton">单特征箱线图</button>
 
 <!--轮播-->
 <div class="carousel-container">
@@ -58,7 +73,10 @@
             <!-- Boxplot images will be dynamically added here -->
         </div>
     </div>
-</div>
+  <!-- Add a space between the buttons -->
+    <div style="margin-bottom: 10px;"></div>
+  <button id="loadFeatureScoreButton" onclick="generateFeatureScore()">特征得分</button>
+    <div id="featureScore" class="featureScore"></div>
 
 
 <!--   <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">-->

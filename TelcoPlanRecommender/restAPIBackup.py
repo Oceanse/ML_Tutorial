@@ -17,8 +17,8 @@ CORS(app)  # Allow CORS for all routes
 
 @app.route('/')
 def index():
-    # 模板文件,存放在 项目根目录/templates/index.html
-    return render_template('index.html')
+    # 模板文件,存放在 项目根目录/templates/indexbackup.html
+    return render_template('indexbackup.html')
 
 
 # 预测套餐类型
@@ -41,7 +41,7 @@ def predict():
 @app.route('/api/boxplot', methods=['GET'])
 def boxplotoverview():
     # 加载数据：Load data
-    data = pd.read_csv('resource/teleCom.csv')
+    data = pd.read_csv('resource/teleCom2.csv')
     print(data.head())
 
     # 标签package列编码：LabelEncoder
